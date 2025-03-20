@@ -23,6 +23,8 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.animation.composable
 
+//URL https://www.carboninterface.com/api/v1/estimates
+//API key Bearer lLgr41Eg1C2d46YFXsOV2Q  que vai no Bearer Token, o bearer é o prefix
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
