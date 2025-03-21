@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -20,8 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import br.com.fiap.ecocalc.model.CarbonEstimateRequest
+import br.com.fiap.ecocalc.model.FlightEstimate
 import br.com.fiap.ecocalc.model.FlightLeg
 import br.com.fiap.ecocalc.viewmodel.CarbonViewModel
+import br.com.fiap.ecocalc.database.AppDatabase
+import br.com.fiap.ecocalc.repository.FlightEstimateRepository
+import kotlinx.coroutines.delay
 
 data class Airport(val name: String, val code: String)
 
@@ -37,6 +42,7 @@ fun AereoScreen(navController: NavController) {
     var destinationAirport by remember { mutableStateOf("") }
     var destinationAirportName by remember { mutableStateOf("") }
     var cabinClass by remember { mutableStateOf("economy") }
+    var isButtonEnabled by remember { mutableStateOf(false) }
 
     val airports = listOf(
         Airport("Galeão - Rio de Janeiro", "GIG"),
@@ -63,26 +69,26 @@ fun AereoScreen(navController: NavController) {
     var showDepartureDialog by remember { mutableStateOf(false) }
     var showDestinationDialog by remember { mutableStateOf(false) }
 
+
+    val context = LocalContext.current
+    val flightEstimateRepository = FlightEstimateRepository(context)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        Button(
-            onClick = { navController.navigate("menu") },
-            modifier = Modifier.align(
-                Alignment.Start
-            )
-        ) {
-            Text(text = "Voltar", fontSize = 18.sp, color = Color.White)
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(18.dp))
         Text(
-            text = "Calculate CO2 Emissions for Flights",
-            fontSize = 22.sp,
-            color = Color.Black
+            text = "CO2 Emissions for Flights",
+            fontSize = 26.sp,
+            color = Color.Black,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center,
+            letterSpacing = 0.5.sp
         )
-        Spacer(modifier = Modifier.height(36.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
@@ -156,7 +162,7 @@ fun AereoScreen(navController: NavController) {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()) {
             RadioButton(
                 selected = cabinClass == "economy",
                 onClick = { cabinClass = "economy" }
@@ -170,17 +176,20 @@ fun AereoScreen(navController: NavController) {
             Text("Premium", modifier = Modifier.align(Alignment.CenterVertically))
         }
         Spacer(modifier = Modifier.height(16.dp))
+        isButtonEnabled = departureAirport.isNotEmpty() && destinationAirport.isNotEmpty()
         Button(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             onClick = {
-            val request = CarbonEstimateRequest(
-                passengers = passengers,
-                legs = listOf(
-                    FlightLeg(departureAirport, destinationAirport, cabinClass)
+                val request = CarbonEstimateRequest(
+                    passengers = passengers,
+                    legs = listOf(
+                        FlightLeg(departureAirport, destinationAirport, cabinClass)
+                    )
                 )
-            )
-            viewModel.getCarbonEstimate(request)
-        }) {
+                viewModel.getCarbonEstimate(request)
+            },
+            enabled = isButtonEnabled // Habilitar o botão apenas se ambos os aeroportos estiverem selecionados
+        ) {
             Text("Get Carbon Estimate")
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -197,17 +206,46 @@ fun AereoScreen(navController: NavController) {
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = "Carbon Estimate: ${it.data.attributes.carbon_kg} kg",
-                        color = Color.White,
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold
-                    )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text(
+                            text = "Carbon Estimate:",
+                            color = Color.White,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Normal
+                        )
+                        Text(
+                            text = "${it.data.attributes.carbon_kg} kg",
+                            color = Color.White,
+                            fontSize = 32.sp,
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
                 }
             }
+                    LaunchedEffect(carbonEstimate) {
+                        carbonEstimate?.let {
+                            delay(3000) // Espera por 3 segundos
+                            val flightEstimate = FlightEstimate(
+                                departureAirport = departureAirport,
+                                destinationAirport = destinationAirport,
+                                passengers = passengers,
+                                cabinClass = cabinClass,
+                                carbonKg = it.data.attributes.carbon_kg
+                            )
+                            flightEstimateRepository.insert(flightEstimate = flightEstimate)
+                        }
+                    }
         }
         Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = { navController.navigate("menu") },
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Text(text = "Return", fontSize = 12.sp, color = Color.White)
+        }
     }
 }
 

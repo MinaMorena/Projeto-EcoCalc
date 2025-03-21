@@ -2,8 +2,10 @@ package br.com.fiap.ecocalc.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import br.com.fiap.ecocalc.database.AppDatabase
 import br.com.fiap.ecocalc.model.CarbonEstimateRequest
 import br.com.fiap.ecocalc.model.CarbonEstimateResponse
+import br.com.fiap.ecocalc.model.FlightEstimate
 import br.com.fiap.ecocalc.repository.CarbonRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,6 +21,12 @@ class CarbonViewModel : ViewModel() {
         viewModelScope.launch {
             val response = repository.getCarbonEstimate(request)
             _carbonEstimate.value = response
+        }
+    }
+
+    fun insertFlightEstimate(database: AppDatabase, flightEstimate: FlightEstimate) {
+        viewModelScope.launch {
+            database.flightEstimateDao().insert(flightEstimate)
         }
     }
 }
