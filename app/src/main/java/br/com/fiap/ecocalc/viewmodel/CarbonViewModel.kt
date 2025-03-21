@@ -8,6 +8,7 @@ import br.com.fiap.ecocalc.repository.CarbonRepository
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import androidx.compose.runtime.mutableStateListOf
 
 class CarbonViewModel : ViewModel() {
     private val repository = CarbonRepository()
@@ -22,3 +23,4 @@ class CarbonViewModel : ViewModel() {
         }
     }
 }
+
