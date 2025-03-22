@@ -18,6 +18,7 @@ import br.com.fiap.ecocalc.screens.MenuScreen
 import br.com.fiap.ecocalc.screens.CarroScreen
 import br.com.fiap.ecocalc.screens.AereoScreen
 import br.com.fiap.ecocalc.screens.HistoricoScreen
+import br.com.fiap.ecocalc.screens.PerfilScreen
 import br.com.fiap.ecocalc.ui.theme.EcoCalcTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
@@ -52,7 +53,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = "menu") { MenuScreen(navController) }
                         composable(route = "carros") { CarroScreen(navController) }
                         composable(route = "aereos") { AereoScreen(navController) }
-                        composable(route = "perfil") { HistoricoScreen(navController, emptyList()) }
+                        composable(route = "perfil") { PerfilScreen(navController) }
 
                     }
                 }

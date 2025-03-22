@@ -80,7 +80,7 @@ fun AereoScreen(navController: NavController) {
     ) {
         Spacer(modifier = Modifier.height(18.dp))
         Text(
-            text = "CO2 Emissions for Flights",
+            text = "CO2 Emissão - Aéreo",
             fontSize = 26.sp,
             color = Color.Black,
             fontWeight = FontWeight.Bold,
@@ -120,14 +120,14 @@ fun AereoScreen(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = if (departureAirportName.isEmpty()) "Departure Airport" else departureAirportName,
+                    text = if (departureAirportName.isEmpty()) "Aeroporto de origem" else departureAirportName,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )
             }
             if (showDepartureDialog) {
                 AirportSelectionDialog(
-                    title = "Select Departure Airport",
+                    title = "Selecione o aeroporto de origem",
                     airports = airports,
                     onDismissRequest = { showDepartureDialog = false },
                     onAirportSelected = { airport ->
@@ -144,14 +144,14 @@ fun AereoScreen(navController: NavController) {
                 onClick = { showDestinationDialog = true },
             ) {
                 Text(
-                    text = if (destinationAirportName.isEmpty()) "Destination Airport" else destinationAirportName,
+                    text = if (destinationAirportName.isEmpty()) "Aeroporto de destino" else destinationAirportName,
                     fontSize = 20.sp,
                     textAlign = TextAlign.Center
                 )
             }
             if (showDestinationDialog) {
                 AirportSelectionDialog(
-                    title = "Select Destination Airport",
+                    title = "Selecione o aeroporto de destino",
                     airports = airports,
                     onDismissRequest = { showDestinationDialog = false },
                     onAirportSelected = { airport ->
@@ -167,13 +167,13 @@ fun AereoScreen(navController: NavController) {
                 selected = cabinClass == "economy",
                 onClick = { cabinClass = "economy" }
             )
-            Text("Economy", modifier = Modifier.align(Alignment.CenterVertically))
+            Text("Economica", modifier = Modifier.align(Alignment.CenterVertically))
             Spacer(modifier = Modifier.width(16.dp))
             RadioButton(
                 selected = cabinClass == "premium",
                 onClick = { cabinClass = "premium" }
             )
-            Text("Premium", modifier = Modifier.align(Alignment.CenterVertically))
+            Text("Executiva", modifier = Modifier.align(Alignment.CenterVertically))
         }
         Spacer(modifier = Modifier.height(16.dp))
         isButtonEnabled = departureAirport.isNotEmpty() && destinationAirport.isNotEmpty()
@@ -190,7 +190,7 @@ fun AereoScreen(navController: NavController) {
             },
             enabled = isButtonEnabled // Habilitar o botão apenas se ambos os aeroportos estiverem selecionados
         ) {
-            Text("Get Carbon Estimate")
+            Text("Calcular estimativa de CO2")
         }
         Spacer(modifier = Modifier.height(16.dp))
         carbonEstimate?.let {
@@ -208,7 +208,7 @@ fun AereoScreen(navController: NavController) {
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "Carbon Estimate:",
+                            text = "Carbono produzido:",
                             color = Color.White,
                             fontSize = 16.sp,
                             textAlign = TextAlign.Center,
@@ -244,7 +244,7 @@ fun AereoScreen(navController: NavController) {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
         ) {
-            Text(text = "Return", fontSize = 12.sp, color = Color.White)
+            Text(text = "Voltar", fontSize = 12.sp, color = Color.White)
         }
     }
 }
