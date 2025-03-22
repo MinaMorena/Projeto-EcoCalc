@@ -12,6 +12,19 @@ data class CarbonEstimateRequest(
     val legs: List<FlightLeg>
 )
 
+data class Vehicle(
+    val id: String,
+    val name: String
+)
+
+data class PesquisaHistorico(
+    val marca: String,
+    val modelo: String,
+    val distancia: Float,
+    val emissao: Float
+)
+
+
 data class CarbonEstimateResponse(
     val data: CarbonData
 )
@@ -28,3 +41,16 @@ data class CarbonAttributes(
     val carbon_kg: Double,
     val carbon_mt: Double
 )
+
+data class VehicleEstimateRequest(
+    val distance_unit: String, // Ex: "mi" ou "km"
+    val distance_value: Int,    // Distância da viagem em unidades apropriadas
+    val vehicle_model_id: String // ID do modelo do veículo
+)
+
+data class VehicleEstimateResponse(
+    val carbon_offset: Float,    // Exemplo de atributo, ajuste conforme a resposta real
+    val distance: Int,
+    // Adicione outros campos conforme necessário
+)
+

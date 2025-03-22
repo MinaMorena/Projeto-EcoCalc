@@ -17,6 +17,7 @@ import br.com.fiap.ecocalc.screens.LoginScreen
 import br.com.fiap.ecocalc.screens.MenuScreen
 import br.com.fiap.ecocalc.screens.CarroScreen
 import br.com.fiap.ecocalc.screens.AereoScreen
+import br.com.fiap.ecocalc.screens.HistoricoScreen
 import br.com.fiap.ecocalc.screens.PerfilScreen
 import br.com.fiap.ecocalc.ui.theme.EcoCalcTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -31,7 +32,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EcoCalcTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -54,6 +54,7 @@ class MainActivity : ComponentActivity() {
                         composable(route = "carros") { CarroScreen(navController) }
                         composable(route = "aereos") { AereoScreen(navController) }
                         composable(route = "perfil") { PerfilScreen(navController) }
+
                     }
                 }
             }

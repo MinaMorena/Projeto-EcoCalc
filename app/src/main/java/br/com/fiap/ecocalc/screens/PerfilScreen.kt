@@ -41,7 +41,7 @@ fun PerfilScreen(navController: NavController) {
     ) {
         Column {
             Text(
-                text = "CO2 Production History",
+                text = "Histórico de CO2",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -66,7 +66,7 @@ fun PerfilScreen(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(Color.White),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             ) {
-                Text(text = "Return", fontSize = 20.sp, color = Color(0xFF004741))
+                Text(text = "Voltar", fontSize = 20.sp, color = Color(0xFF004741))
             }
         }
     }

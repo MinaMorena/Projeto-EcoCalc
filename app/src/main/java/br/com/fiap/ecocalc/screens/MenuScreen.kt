@@ -1,6 +1,5 @@
 package br.com.fiap.ecocalc.screens
 
-import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -31,7 +29,7 @@ fun MenuScreen(navController: NavController) {
         .padding(32.dp)
     ) {
         Text(
-            text = "MENU",
+            text = "DashBoard",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White
@@ -43,12 +41,11 @@ fun MenuScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(
-//                passando na rota do perfil um parametro, no caso um nome
                 onClick = { navController.navigate("perfil")},
                 colors = ButtonDefaults.buttonColors(Color.White),
                 modifier = Modifier.size(width = 200.dp, height = 48.dp)
             ) {
-                Text(text = "Perfil", fontSize = 20.sp, color = Color.Blue)
+                Text(text = "Histórico", fontSize = 20.sp, color = Color.Blue)
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
@@ -77,9 +74,3 @@ fun MenuScreen(navController: NavController) {
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun MenuScreenPreview() {
-//    MenuScreen()
-//}
